@@ -4,6 +4,7 @@ import { Link } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { FadeInView } from '@/components/ui/FadeInView';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,71 +17,89 @@ export default function HomeScreen() {
       <ThemedView style={styles.content}>
         {/* Clean Hero Section */}
         <View style={styles.hero}>
-          <View style={styles.iconContainer}>
-            <Ionicons name="school-outline" size={48} color="#2563eb" />
-          </View>
-          <Text style={styles.heroTitle}>
-            Computational Thinking Lab
-          </Text>
-          <Text style={styles.heroSubtitle}>
-            Master problem-solving skills through interactive challenges
-          </Text>
-          <Link href={user ? "/challenges" : "/auth"} asChild>
-            <Button
-              title="Get Started"
-              onPress={() => { }}
-              size="lg"
-              style={styles.ctaButton}
-            />
-          </Link>
+          <FadeInView delay={0}>
+            <View style={styles.iconContainer}>
+              <Ionicons name="school-outline" size={48} color="#2563eb" />
+            </View>
+          </FadeInView>
+          <FadeInView delay={100}>
+            <Text style={styles.heroTitle}>
+              Computational Thinking Lab
+            </Text>
+          </FadeInView>
+          <FadeInView delay={200}>
+            <Text style={styles.heroSubtitle}>
+              Master problem-solving skills through interactive challenges
+            </Text>
+          </FadeInView>
+          <FadeInView delay={300}>
+            <Link href={user ? "/challenges" : "/auth"} asChild>
+              <Button
+                title="Get Started"
+                onPress={() => { }}
+                size="lg"
+                style={styles.ctaButton}
+              />
+            </Link>
+          </FadeInView>
         </View>
 
         {/* About Section */}
-        <Card style={styles.aboutCard}>
-          <CardHeader>
-            <CardTitle>About This Lab</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Text style={styles.aboutText}>
-              An educational platform designed to help ITB students develop computational
-              thinking skills through interactive challenges and hands-on learning.
-            </Text>
-          </CardContent>
-        </Card>
+        <FadeInView delay={400}>
+          <Card style={styles.aboutCard}>
+            <CardHeader>
+              <CardTitle>About This Lab</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Text style={styles.aboutText}>
+                An educational platform designed to help ITB students develop computational
+                thinking skills through interactive challenges and hands-on learning.
+              </Text>
+            </CardContent>
+          </Card>
+        </FadeInView>
 
         {/* Features Grid */}
         <View style={styles.features}>
-          <Text style={styles.sectionTitle}>What You'll Get</Text>
+          <FadeInView delay={500}>
+            <Text style={styles.sectionTitle}>What You'll Get</Text>
+          </FadeInView>
 
-          <Card style={styles.featureCard}>
-            <View style={styles.featureIcon}>
-              <Ionicons name="trophy-outline" size={24} color="#2563eb" />
-            </View>
-            <CardTitle style={styles.featureTitle}>Interactive Challenges</CardTitle>
-            <Text style={styles.featureText}>
-              10+ curated exercises across multiple difficulty levels
-            </Text>
-          </Card>
+          <FadeInView delay={600}>
+            <Card style={styles.featureCard}>
+              <View style={styles.featureIcon}>
+                <Ionicons name="trophy-outline" size={24} color="#2563eb" />
+              </View>
+              <CardTitle style={styles.featureTitle}>Interactive Challenges</CardTitle>
+              <Text style={styles.featureText}>
+                10+ curated exercises across multiple difficulty levels
+              </Text>
+            </Card>
+          </FadeInView>
 
-          <Card style={styles.featureCard}>
-            <View style={styles.featureIcon}>
-              <Ionicons name="flash-outline" size={24} color="#2563eb" />
-            </View>
-            <CardTitle style={styles.featureTitle}>Instant Feedback</CardTitle>
-            <Text style={styles.featureText}>
-              Real-time evaluation with detailed explanations
-            </Text>
-          </Card>
+          <FadeInView delay={700}>
+            <Card style={styles.featureCard}>
+              <View style={styles.featureIcon}>
+                <Ionicons name="flash-outline" size={24} color="#2563eb" />
+              </View>
+              <CardTitle style={styles.featureTitle}>Instant Feedback</CardTitle>
+              <Text style={styles.featureText}>
+                Real-time evaluation with detailed explanations
+              </Text>
+            </Card>
+          </FadeInView>
 
-          <Card style={styles.featureCard}>
-            <View style={styles.featureIcon}>
-              <Ionicons name="stats-chart-outline" size={24} color="#2563eb" />
-            </View>
-            <CardTitle style={styles.featureTitle}>Track Progress</CardTitle>
-            <Text style={styles.featureText}>
-              Monitor your achievements and completion rates
-            </Text>
-          </Card>
+          <FadeInView delay={800}>
+            <Card style={styles.featureCard}>
+              <View style={styles.featureIcon}>
+                <Ionicons name="stats-chart-outline" size={24} color="#2563eb" />
+              </View>
+              <CardTitle style={styles.featureTitle}>Track Progress</CardTitle>
+              <Text style={styles.featureText}>
+                Monitor your achievements and completion rates
+              </Text>
+            </Card>
+          </FadeInView>
         </View>
       </ThemedView>
     </ScrollView>

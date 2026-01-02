@@ -5,6 +5,7 @@ import { challenges } from '@/data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Progress } from '@/components/ui/Progress';
+import { FadeInView } from '@/components/ui/FadeInView';
 import { ThemedView } from '@/components/themed-view';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -36,116 +37,128 @@ export default function DashboardScreen() {
       <ThemedView style={styles.content}>
         {/* Clean Header */}
         <View style={styles.header}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>
-              {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+          <FadeInView delay={0}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>
+                {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+              </Text>
+            </View>
+          </FadeInView>
+          <FadeInView delay={100}>
+            <Text style={styles.greeting}>
+              Hi, {user.name.split(' ')[0]}
             </Text>
-          </View>
-          <Text style={styles.greeting}>
-            Hi, {user.name.split(' ')[0]}
-          </Text>
-          <Text style={styles.email}>{user.email}</Text>
+          </FadeInView>
+          <FadeInView delay={150}>
+            <Text style={styles.email}>{user.email}</Text>
+          </FadeInView>
         </View>
 
         {/* Stats Grid */}
         <View style={styles.statsGrid}>
-          <Card style={styles.statCard}>
-            <CardContent>
-              <View style={styles.statIcon}>
-                <Ionicons name="trophy-outline" size={20} color="#2563eb" />
-              </View>
-              <Text style={styles.statValue}>{totalScore}</Text>
-              <Text style={styles.statLabel}>Points</Text>
-            </CardContent>
-          </Card>
+          <FadeInView delay={200}>
+            <Card style={styles.statCard}>
+              <CardContent>
+                <View style={styles.statIcon}>
+                  <Ionicons name="trophy-outline" size={20} color="#2563eb" />
+                </View>
+                <Text style={styles.statValue}>{totalScore}</Text>
+                <Text style={styles.statLabel}>Points</Text>
+              </CardContent>
+            </Card>
 
-          <Card style={styles.statCard}>
-            <CardContent>
-              <View style={styles.statIcon}>
-                <Ionicons name="checkmark-circle-outline" size={20} color="#2563eb" />
-              </View>
-              <Text style={styles.statValue}>{completedChallenges}</Text>
-              <Text style={styles.statLabel}>Completed</Text>
-            </CardContent>
-          </Card>
+            <Card style={styles.statCard}>
+              <CardContent>
+                <View style={styles.statIcon}>
+                  <Ionicons name="checkmark-circle-outline" size={20} color="#2563eb" />
+                </View>
+                <Text style={styles.statValue}>{completedChallenges}</Text>
+                <Text style={styles.statLabel}>Completed</Text>
+              </CardContent>
+            </Card>
 
-          <Card style={styles.statCard}>
-            <CardContent>
-              <View style={styles.statIcon}>
-                <Ionicons name="trending-up-outline" size={20} color="#2563eb" />
-              </View>
-              <Text style={styles.statValue}>{averageScore}%</Text>
-              <Text style={styles.statLabel}>Average</Text>
-            </CardContent>
-          </Card>
+            <Card style={styles.statCard}>
+              <CardContent>
+                <View style={styles.statIcon}>
+                  <Ionicons name="trending-up-outline" size={20} color="#2563eb" />
+                </View>
+                <Text style={styles.statValue}>{averageScore}%</Text>
+                <Text style={styles.statLabel}>Average</Text>
+              </CardContent>
+            </Card>
 
-          <Card style={styles.statCard}>
-            <CardContent>
-              <View style={styles.statIcon}>
-                <Ionicons name="list-outline" size={20} color="#2563eb" />
-              </View>
-              <Text style={styles.statValue}>{totalChallenges - completedChallenges}</Text>
-              <Text style={styles.statLabel}>Remaining</Text>
-            </CardContent>
-          </Card>
+            <Card style={styles.statCard}>
+              <CardContent>
+                <View style={styles.statIcon}>
+                  <Ionicons name="list-outline" size={20} color="#2563eb" />
+                </View>
+                <Text style={styles.statValue}>{totalChallenges - completedChallenges}</Text>
+                <Text style={styles.statLabel}>Remaining</Text>
+              </CardContent>
+            </Card>
+          </FadeInView>
         </View>
 
         {/* Overall Progress */}
-        <Card style={styles.section}>
-          <CardHeader>
-            <CardTitle>Progress</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <View style={styles.progressRow}>
-              <Text style={styles.progressLabel}>Exercises</Text>
-              <Text style={styles.progressValue}>{completedChallenges} / {totalChallenges}</Text>
-            </View>
-            <Progress value={progressPercentage} style={styles.progressBar} />
-            <Text style={styles.progressText}>
-              {progressPercentage.toFixed(0)}% complete
-            </Text>
-          </CardContent>
-        </Card>
+        <FadeInView delay={400}>
+          <Card style={styles.section}>
+            <CardHeader>
+              <CardTitle>Progress</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <View style={styles.progressRow}>
+                <Text style={styles.progressLabel}>Exercises</Text>
+                <Text style={styles.progressValue}>{completedChallenges} / {totalChallenges}</Text>
+              </View>
+              <Progress value={progressPercentage} style={styles.progressBar} />
+              <Text style={styles.progressText}>
+                {progressPercentage.toFixed(0)}% complete
+              </Text>
+            </CardContent>
+          </Card>
+        </FadeInView>
 
         {/* Recent Submissions */}
-        <Card style={styles.section}>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {completedChallengesDetails.length > 0 ? (
-              completedChallengesDetails.slice().reverse().map((item) => (
-                <View key={item.challengeId} style={styles.activityItem}>
-                  <View style={styles.activityHeader}>
-                    <Text style={styles.activityTitle}>{item.challenge?.title}</Text>
-                    <Badge
-                      variant={item.challenge?.difficulty === 'Easy' ? 'success' :
-                        item.challenge?.difficulty === 'Medium' ? 'warning' : 'danger'}
-                    >
-                      {item.challenge?.difficulty}
-                    </Badge>
+        <FadeInView delay={500}>
+          <Card style={styles.section}>
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {completedChallengesDetails.length > 0 ? (
+                completedChallengesDetails.slice().reverse().map((item) => (
+                  <View key={item.challengeId} style={styles.activityItem}>
+                    <View style={styles.activityHeader}>
+                      <Text style={styles.activityTitle}>{item.challenge?.title}</Text>
+                      <Badge
+                        variant={item.challenge?.difficulty === 'Easy' ? 'success' :
+                          item.challenge?.difficulty === 'Medium' ? 'warning' : 'danger'}
+                      >
+                        {item.challenge?.difficulty}
+                      </Badge>
+                    </View>
+                    <View style={styles.activityFooter}>
+                      <Text style={styles.activityScore}>
+                        {item.score}/100
+                      </Text>
+                      <Text style={styles.activityDate}>
+                        {new Date(item.date).toLocaleDateString()}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.activityFooter}>
-                    <Text style={styles.activityScore}>
-                      {item.score}/100
-                    </Text>
-                    <Text style={styles.activityDate}>
-                      {new Date(item.date).toLocaleDateString()}
-                    </Text>
-                  </View>
+                ))
+              ) : (
+                <View style={styles.emptyState}>
+                  <Ionicons name="document-outline" size={40} color="#d1d5db" />
+                  <Text style={styles.emptyText}>No submissions yet</Text>
+                  <Text style={styles.emptySubtext}>
+                    Start solving exercises to track your progress
+                  </Text>
                 </View>
-              ))
-            ) : (
-              <View style={styles.emptyState}>
-                <Ionicons name="document-outline" size={40} color="#d1d5db" />
-                <Text style={styles.emptyText}>No submissions yet</Text>
-                <Text style={styles.emptySubtext}>
-                  Start solving exercises to track your progress
-                </Text>
-              </View>
-            )}
-          </CardContent>
-        </Card>
+              )}
+            </CardContent>
+          </Card>
+        </FadeInView>
       </ThemedView>
     </ScrollView>
   );

@@ -5,6 +5,7 @@ import { challenges } from '@/data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { FadeInView } from '@/components/ui/FadeInView';
 import { ThemedView } from '@/components/themed-view';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -30,75 +31,81 @@ export default function ChallengesScreen() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <ThemedView style={styles.content}>
         {/* Clean Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Challenges</Text>
-          <Text style={styles.subtitle}>
-            Test your computational thinking skills
-          </Text>
-        </View>
+        <FadeInView delay={0}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Challenges</Text>
+            <Text style={styles.subtitle}>
+              Test your computational thinking skills
+            </Text>
+          </View>
+        </FadeInView>
 
         {/* Stats Summary */}
-        <View style={styles.stats}>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats.total}</Text>
-            <Text style={styles.statText}>Total</Text>
+        <FadeInView delay={100}>
+          <View style={styles.stats}>
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>{stats.total}</Text>
+              <Text style={styles.statText}>Total</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>{stats.easy}</Text>
+              <Text style={styles.statText}>Easy</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>{stats.medium}</Text>
+              <Text style={styles.statText}>Medium</Text>
+            </View>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>{stats.hard}</Text>
+              <Text style={styles.statText}>Hard</Text>
+            </View>
           </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats.easy}</Text>
-            <Text style={styles.statText}>Easy</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats.medium}</Text>
-            <Text style={styles.statText}>Medium</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats.hard}</Text>
-            <Text style={styles.statText}>Hard</Text>
-          </View>
-        </View>
+        </FadeInView>
 
         {/* Challenges List */}
         <View style={styles.challengesList}>
           {challenges.map((challenge, index) => (
-            <Card key={challenge.id} style={styles.challengeCard}>
-              <CardHeader>
-                <View style={styles.challengeHeader}>
-                  <View style={styles.challengeTitleRow}>
-                    <Text style={styles.challengeNumber}>{index + 1}</Text>
-                    <CardTitle style={styles.challengeTitle}>{challenge.title}</CardTitle>
+            <FadeInView key={challenge.id} delay={200 + (index * 100)}>
+              <Card style={styles.challengeCard}>
+                <CardHeader>
+                  <View style={styles.challengeHeader}>
+                    <View style={styles.challengeTitleRow}>
+                      <Text style={styles.challengeNumber}>{index + 1}</Text>
+                      <CardTitle style={styles.challengeTitle}>{challenge.title}</CardTitle>
+                    </View>
+                    <Badge variant={difficultyColors[challenge.difficulty]}>
+                      {challenge.difficulty}
+                    </Badge>
                   </View>
-                  <Badge variant={difficultyColors[challenge.difficulty]}>
-                    {challenge.difficulty}
-                  </Badge>
-                </View>
-              </CardHeader>
-              <CardContent>
-                <Text style={styles.challengeDescription}>{challenge.description}</Text>
-                <View style={styles.challengeMeta}>
-                  <View style={styles.metaItem}>
-                    <Ionicons name="help-circle-outline" size={16} color="#9ca3af" />
-                    <Text style={styles.metaText}>
-                      {challenge.questions.length} questions
-                    </Text>
+                </CardHeader>
+                <CardContent>
+                  <Text style={styles.challengeDescription}>{challenge.description}</Text>
+                  <View style={styles.challengeMeta}>
+                    <View style={styles.metaItem}>
+                      <Ionicons name="help-circle-outline" size={16} color="#9ca3af" />
+                      <Text style={styles.metaText}>
+                        {challenge.questions.length} questions
+                      </Text>
+                    </View>
+                    <View style={styles.metaItem}>
+                      <Ionicons name="star-outline" size={16} color="#9ca3af" />
+                      <Text style={styles.metaText}>
+                        {challenge.totalPoints} pts
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.metaItem}>
-                    <Ionicons name="star-outline" size={16} color="#9ca3af" />
-                    <Text style={styles.metaText}>
-                      {challenge.totalPoints} pts
-                    </Text>
-                  </View>
-                </View>
-                <Button
-                  title="Start Exercise"
-                  onPress={() => handleStartChallenge(challenge.id)}
-                  size="md"
-                  style={styles.startButton}
-                />
-              </CardContent>
-            </Card>
+                  <Button
+                    title="Start Exercise"
+                    onPress={() => handleStartChallenge(challenge.id)}
+                    size="md"
+                    style={styles.startButton}
+                  />
+                </CardContent>
+              </Card>
+            </FadeInView>
           ))}
         </View>
       </ThemedView>

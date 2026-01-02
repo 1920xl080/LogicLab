@@ -6,6 +6,7 @@ import { challenges, Question } from '@/data/mockData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { FadeInView } from '@/components/ui/FadeInView';
 import { ThemedView } from '@/components/themed-view';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -147,122 +148,130 @@ export default function ExerciseDetailScreen() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <ThemedView style={styles.content}>
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>{challenge.title}</Text>
-          <View style={styles.badges}>
-            <Badge variant={challenge.difficulty === 'Easy' ? 'success' :
-              challenge.difficulty === 'Medium' ? 'warning' : 'danger'}>
-              {challenge.difficulty}
-            </Badge>
-            <Badge variant="outline">{challenge.category}</Badge>
+        <FadeInView delay={0}>
+          <View style={styles.header}>
+            <Text style={styles.title}>{challenge.title}</Text>
+            <View style={styles.badges}>
+              <Badge variant={challenge.difficulty === 'Easy' ? 'success' :
+                challenge.difficulty === 'Medium' ? 'warning' : 'danger'}>
+                {challenge.difficulty}
+              </Badge>
+              <Badge variant="outline">{challenge.category}</Badge>
+            </View>
+            <Text style={styles.description}>{challenge.description}</Text>
           </View>
-          <Text style={styles.description}>{challenge.description}</Text>
-        </View>
+        </FadeInView>
 
         {/* Questions */}
         {challenge.questions.map((question, index) => (
-          <Card key={question.id} style={styles.questionCard}>
-            <CardHeader>
-              <View style={styles.questionHeader}>
-                <View style={styles.questionNumber}>
-                  <Text style={styles.questionNumberText}>{index + 1}</Text>
+          <FadeInView key={question.id} delay={100 + (index * 100)}>
+            <Card style={styles.questionCard}>
+              <CardHeader>
+                <View style={styles.questionHeader}>
+                  <View style={styles.questionNumber}>
+                    <Text style={styles.questionNumberText}>{index + 1}</Text>
+                  </View>
+                  <CardTitle style={styles.questionTitle}>
+                    Question {index + 1}
+                  </CardTitle>
                 </View>
-                <CardTitle style={styles.questionTitle}>
-                  Question {index + 1}
-                </CardTitle>
-              </View>
-              <View style={styles.pointsBadge}>
-                <Ionicons name="star-outline" size={14} color="#d97706" />
-                <Text style={styles.pointsText}>{question.points} pts</Text>
-              </View>
-            </CardHeader>
-            <CardContent>
-              <Text style={styles.questionText}>{question.question}</Text>
-
-              <View style={styles.options}>
-                {question.options.map((option) => {
-                  const selected = getSelectedOption(question.id) === option.id;
-                  const correct = isCorrect(question, option.id);
-
-                  return (
-                    <TouchableOpacity
-                      key={option.id}
-                      style={[
-                        styles.option,
-                        selected && styles.optionSelected,
-                        correct === true && styles.optionCorrect,
-                        correct === false && styles.optionIncorrect,
-                      ]}
-                      onPress={() => !isSubmitted && handleAnswerChange(question.id, option.id)}
-                      disabled={isSubmitted}
-                    >
-                      <View style={[
-                        styles.optionRadio,
-                        selected && styles.optionRadioSelected,
-                        correct === true && styles.optionRadioCorrect,
-                        correct === false && styles.optionRadioIncorrect,
-                      ]}>
-                        {selected && !isSubmitted && <View style={styles.optionRadioInner} />}
-                        {correct === true && <Ionicons name="checkmark" size={16} color="#16a34a" />}
-                        {correct === false && <Ionicons name="close" size={16} color="#dc2626" />}
-                      </View>
-                      <Text style={[
-                        styles.optionText,
-                        correct === true && styles.optionTextCorrect,
-                        correct === false && styles.optionTextIncorrect,
-                      ]}>
-                        {option.text}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-
-              {isSubmitted && question.explanation && (
-                <View style={styles.explanation}>
-                  <Text style={styles.explanationLabel}>Explanation</Text>
-                  <Text style={styles.explanationText}>{question.explanation}</Text>
+                <View style={styles.pointsBadge}>
+                  <Ionicons name="star-outline" size={14} color="#d97706" />
+                  <Text style={styles.pointsText}>{question.points} pts</Text>
                 </View>
-              )}
-            </CardContent>
-          </Card>
+              </CardHeader>
+              <CardContent>
+                <Text style={styles.questionText}>{question.question}</Text>
+
+                <View style={styles.options}>
+                  {question.options.map((option) => {
+                    const selected = getSelectedOption(question.id) === option.id;
+                    const correct = isCorrect(question, option.id);
+
+                    return (
+                      <TouchableOpacity
+                        key={option.id}
+                        style={[
+                          styles.option,
+                          selected && styles.optionSelected,
+                          correct === true && styles.optionCorrect,
+                          correct === false && styles.optionIncorrect,
+                        ]}
+                        onPress={() => !isSubmitted && handleAnswerChange(question.id, option.id)}
+                        disabled={isSubmitted}
+                      >
+                        <View style={[
+                          styles.optionRadio,
+                          selected && styles.optionRadioSelected,
+                          correct === true && styles.optionRadioCorrect,
+                          correct === false && styles.optionRadioIncorrect,
+                        ]}>
+                          {selected && !isSubmitted && <View style={styles.optionRadioInner} />}
+                          {correct === true && <Ionicons name="checkmark" size={16} color="#16a34a" />}
+                          {correct === false && <Ionicons name="close" size={16} color="#dc2626" />}
+                        </View>
+                        <Text style={[
+                          styles.optionText,
+                          correct === true && styles.optionTextCorrect,
+                          correct === false && styles.optionTextIncorrect,
+                        ]}>
+                          {option.text}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+
+                {isSubmitted && question.explanation && (
+                  <View style={styles.explanation}>
+                    <Text style={styles.explanationLabel}>Explanation</Text>
+                    <Text style={styles.explanationText}>{question.explanation}</Text>
+                  </View>
+                )}
+              </CardContent>
+            </Card>
+          </FadeInView>
         ))}
 
         {/* Submit Button */}
         {!isSubmitted && (
-          <Button
-            title={isSaving ? 'Submitting...' : 'Submit Answers'}
-            onPress={handleSubmit}
-            disabled={isSaving || answers.length < challenge.questions.length}
-            size="lg"
-            style={styles.submitButton}
-          />
+          <FadeInView delay={100 + (challenge.questions.length * 100)}>
+            <Button
+              title={isSaving ? 'Submitting...' : 'Submit Answers'}
+              onPress={handleSubmit}
+              disabled={isSaving || answers.length < challenge.questions.length}
+              size="lg"
+              style={styles.submitButton}
+            />
+          </FadeInView>
         )}
 
         {/* Results */}
         {isSubmitted && (
-          <Card style={styles.resultsCard}>
-            <CardHeader>
-              <CardTitle>Your Result</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <View style={styles.scoreContainer}>
-                <Text style={styles.scoreLabel}>Score</Text>
-                <Text style={styles.scoreValue}>
-                  {score} / {challenge.totalPoints}
-                </Text>
-                <Text style={styles.percentageText}>
-                  {Math.round((score / challenge.totalPoints) * 100)}%
-                </Text>
-              </View>
-              <Button
-                title="Back to Challenges"
-                onPress={() => router.push('/challenges')}
-                variant="outline"
-                style={styles.backButton}
-              />
-            </CardContent>
-          </Card>
+          <FadeInView delay={0}>
+            <Card style={styles.resultsCard}>
+              <CardHeader>
+                <CardTitle>Your Result</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <View style={styles.scoreContainer}>
+                  <Text style={styles.scoreLabel}>Score</Text>
+                  <Text style={styles.scoreValue}>
+                    {score} / {challenge.totalPoints}
+                  </Text>
+                  <Text style={styles.percentageText}>
+                    {Math.round((score / challenge.totalPoints) * 100)}%
+                  </Text>
+                </View>
+                <Button
+                  title="Back to Challenges"
+                  onPress={() => router.push('/challenges')}
+                  variant="outline"
+                  style={styles.backButton}
+                />
+              </CardContent>
+            </Card>
+          </FadeInView>
         )}
       </ThemedView>
     </ScrollView>
