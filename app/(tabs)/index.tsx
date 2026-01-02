@@ -1,98 +1,168 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const { user } = useAuth();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <ThemedView style={styles.content}>
+        {/* Clean Hero Section */}
+        <View style={styles.hero}>
+          <View style={styles.iconContainer}>
+            <Ionicons name="school-outline" size={48} color="#2563eb" />
+          </View>
+          <Text style={styles.heroTitle}>
+            Computational Thinking Lab
+          </Text>
+          <Text style={styles.heroSubtitle}>
+            Master problem-solving skills through interactive challenges
+          </Text>
+          <Link href={user ? "/challenges" : "/auth"} asChild>
+            <Button
+              title="Get Started"
+              onPress={() => { }}
+              size="lg"
+              style={styles.ctaButton}
+            />
+          </Link>
+        </View>
+
+        {/* About Section */}
+        <Card style={styles.aboutCard}>
+          <CardHeader>
+            <CardTitle>About This Lab</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Text style={styles.aboutText}>
+              An educational platform designed to help ITB students develop computational
+              thinking skills through interactive challenges and hands-on learning.
+            </Text>
+          </CardContent>
+        </Card>
+
+        {/* Features Grid */}
+        <View style={styles.features}>
+          <Text style={styles.sectionTitle}>What You'll Get</Text>
+
+          <Card style={styles.featureCard}>
+            <View style={styles.featureIcon}>
+              <Ionicons name="trophy-outline" size={24} color="#2563eb" />
+            </View>
+            <CardTitle style={styles.featureTitle}>Interactive Challenges</CardTitle>
+            <Text style={styles.featureText}>
+              10+ curated exercises across multiple difficulty levels
+            </Text>
+          </Card>
+
+          <Card style={styles.featureCard}>
+            <View style={styles.featureIcon}>
+              <Ionicons name="flash-outline" size={24} color="#2563eb" />
+            </View>
+            <CardTitle style={styles.featureTitle}>Instant Feedback</CardTitle>
+            <Text style={styles.featureText}>
+              Real-time evaluation with detailed explanations
+            </Text>
+          </Card>
+
+          <Card style={styles.featureCard}>
+            <View style={styles.featureIcon}>
+              <Ionicons name="stats-chart-outline" size={24} color="#2563eb" />
+            </View>
+            <CardTitle style={styles.featureTitle}>Track Progress</CardTitle>
+            <Text style={styles.featureText}>
+              Monitor your achievements and completion rates
+            </Text>
+          </Card>
+        </View>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    backgroundColor: '#fafafa',
+  },
+  content: {
+    paddingBottom: 40,
+  },
+  hero: {
     alignItems: 'center',
-    gap: 8,
+    paddingHorizontal: 24,
+    paddingTop: 60,
+    paddingBottom: 60,
+    backgroundColor: '#ffffff',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  iconContainer: {
+    marginBottom: 24,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  heroTitle: {
+    fontSize: 32,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: '#111827',
+    marginBottom: 12,
+    letterSpacing: -0.5,
+  },
+  heroSubtitle: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#6b7280',
+    marginBottom: 32,
+    lineHeight: 24,
+    maxWidth: 320,
+  },
+  ctaButton: {
+    minWidth: 160,
+  },
+  aboutCard: {
+    marginHorizontal: 20,
+    marginTop: 32,
+  },
+  aboutText: {
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#6b7280',
+  },
+  features: {
+    marginTop: 40,
+    marginHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 20,
+    letterSpacing: -0.3,
+  },
+  featureCard: {
+    marginBottom: 16,
+  },
+  featureIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#eff6ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  featureTitle: {
+    fontSize: 16,
+    marginBottom: 6,
+  },
+  featureText: {
+    fontSize: 14,
+    color: '#6b7280',
+    lineHeight: 20,
   },
 });
