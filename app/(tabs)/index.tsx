@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 import { Link } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
@@ -44,28 +44,52 @@ export default function HomeScreen() {
           </FadeInView>
         </View>
 
-        {/* About Section */}
-        <FadeInView delay={400}>
-          <Card style={styles.aboutCard}>
-            <CardHeader>
-              <CardTitle>About This Lab</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Text style={styles.aboutText}>
-                An educational platform designed to help ITB students develop computational
-                thinking skills through interactive challenges and hands-on learning.
-              </Text>
-            </CardContent>
-          </Card>
-        </FadeInView>
+        {/* Second Section - Black Background */}
+        <View style={styles.blackSection}>
+          <FadeInView delay={400}>
+            <View style={styles.heroImageContainer}>
+              <Image
+                source={require('@/assets/images/Plaza_Widya_Nusantara.jpg')}
+                style={styles.heroImage}
+                resizeMode="cover"
+              />
+            </View>
+          </FadeInView>
 
-        {/* Features Grid */}
-        <View style={styles.features}>
+          {/* About Section */}
           <FadeInView delay={500}>
+            <Card style={styles.aboutCard}>
+              <CardHeader>
+                <CardTitle style={styles.aboutTitleWhite}>About This Lab</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Text style={styles.aboutTextWhite}>
+                  An educational platform designed to help ITB students develop computational
+                  thinking skills through interactive challenges and hands-on learning.
+                </Text>
+              </CardContent>
+            </Card>
+          </FadeInView>
+
+          {/* Second Hero Image */}
+          <FadeInView delay={600}>
+            <View style={styles.heroImageContainer}>
+              <Image
+                source={require('@/assets/images/computer-screen-that-says-start-top-right-corner.jpg')}
+                style={styles.heroImage}
+                resizeMode="cover"
+              />
+            </View>
+          </FadeInView>
+        </View>
+
+        {/* Third Section - Grey Background */}
+        <View style={styles.greySection}>
+          <FadeInView delay={700}>
             <Text style={styles.sectionTitle}>What You'll Get</Text>
           </FadeInView>
 
-          <FadeInView delay={600}>
+          <FadeInView delay={800}>
             <Card style={styles.featureCard}>
               <View style={styles.featureIcon}>
                 <Ionicons name="trophy-outline" size={24} color="#2563eb" />
@@ -77,7 +101,7 @@ export default function HomeScreen() {
             </Card>
           </FadeInView>
 
-          <FadeInView delay={700}>
+          <FadeInView delay={900}>
             <Card style={styles.featureCard}>
               <View style={styles.featureIcon}>
                 <Ionicons name="flash-outline" size={24} color="#2563eb" />
@@ -89,7 +113,7 @@ export default function HomeScreen() {
             </Card>
           </FadeInView>
 
-          <FadeInView delay={800}>
+          <FadeInView delay={1000}>
             <Card style={styles.featureCard}>
               <View style={styles.featureIcon}>
                 <Ionicons name="stats-chart-outline" size={24} color="#2563eb" />
@@ -143,28 +167,59 @@ const styles = StyleSheet.create({
   ctaButton: {
     minWidth: 160,
   },
+  blackSection: {
+    backgroundColor: '#000000',
+    paddingTop: 32,
+    paddingBottom: 32,
+  },
+  greySection: {
+    backgroundColor: '#f3f4f6',
+    paddingTop: 32,
+    paddingBottom: 40,
+  },
+  heroImageContainer: {
+    marginHorizontal: 20,
+    marginTop: 0,
+    marginBottom: 24,
+  },
+  heroImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
   aboutCard: {
     marginHorizontal: 20,
-    marginTop: 32,
+    marginTop: 0,
+    marginBottom: 24,
+    backgroundColor: '#1f2937',
+    borderColor: '#374151',
+  },
+  aboutTitleWhite: {
+    color: '#ffffff',
   },
   aboutText: {
     fontSize: 15,
     lineHeight: 24,
     color: '#6b7280',
   },
-  features: {
-    marginTop: 40,
-    marginHorizontal: 20,
+  aboutTextWhite: {
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#e5e7eb',
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
     color: '#111827',
-    marginBottom: 20,
+    marginBottom: 16,
     letterSpacing: -0.3,
+    marginHorizontal: 20,
   },
   featureCard: {
     marginBottom: 16,
+    marginHorizontal: 20,
   },
   featureIcon: {
     width: 48,
